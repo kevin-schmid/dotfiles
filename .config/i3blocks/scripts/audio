@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+PLAYER_STATUS=$(playerctl status)
+if [[ "${PLAYER_STATUS}" = "No players found" ]]; then
+  exit 0
+fi
+
+if [[ "${BLOCK_BUTTON}" -eq 1 ]]; then
+    playerctl previous
+elif [[ "${BLOCK_BUTTON}" -eq 2 ]]; then
+    playerctl play-pause
+elif [[ "${BLOCK_BUTTON}" -eq 3 ]]; then
+    playerctl next
+fi
+
+ICON=""
+if [[ "${PLAYER_STATUS}" = "Playing" ]]; then
+    ICON="▶"
+elif [[ "${PLAYER_STATUS}" = "Paused" ]]; then
+    ICON="⏸"
+else
+    ICON="⏹"
+fi
+
+playerctl metadata --format "$ICON {{artist}} - {{title}}" 2> /dev/null

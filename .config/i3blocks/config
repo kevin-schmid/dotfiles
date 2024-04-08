@@ -1,0 +1,49 @@
+# i3blocks config file
+#
+# Please see man i3blocks for a complete reference!
+# The man page is also hosted at http://vivien.github.io/i3blocks
+#
+# List of valid properties:
+#
+# align
+# color
+# command
+# full_text
+# instance
+# interval
+# label
+# min_width
+# name
+# separator
+# separator_block_width
+# short_text
+# signal
+# urgent
+
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+command=/usr/share/i3blocks/$BLOCK_NAME
+separator_block_width=15
+markup=none
+
+[audio]
+command=$HOME/.config/i3blocks/scripts/audio
+interval=5
+
+[volume]
+command=$HOME/.config/i3blocks/scripts/volume
+label=
+instance=Master
+interval=once
+signal=10
+
+[time]
+command=date '+%m-%d %H:%M'
+interval=5
+
+[shutdown]
+align=center
+full_text=⏻ 
+command=systemctl poweroff

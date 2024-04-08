@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# Get the latest version of go
+go_version=$(curl -s "https://go.dev/VERSION?m=text" | head -n 1)
+
+# Download the release for your architecture (replace "linux_amd64" if needed)
+download_url="https://go.dev/dl/${go_version}.linux-amd64.tar.gz"
+curl -sSL "$download_url" -o go.tar.gz
+
+# Create a temporary directory
+tmp_dir=$(mktemp -d)
+
+# Untar the archive into the temporary directory
+tar -xf go.tar.gz -C "$tmp_dir"
+
+# Move the binaries to local bin directory
+mv "$tmp_dir"/go ~/.local/bin/
+
+# Clean up
+rm go.tar.gz
+rm -rf "$tmp_dir"
+
+echo "Go version $go_version installed successfully!"

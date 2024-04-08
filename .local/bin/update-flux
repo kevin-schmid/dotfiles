@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# Get the latest version of Flux (remove leading "v")
+flux_version=$(curl -s "https://api.github.com/repos/fluxcd/flux2/tags" | jq -r '.[0].name' | cut -c 2-)
+
+# Download the release for your architecture (replace "linux_amd64" if needed)
+download_url="https://github.com/fluxcd/flux2/releases/download/v${flux_version}/flux_${flux_version}_linux_amd64.tar.gz"
+curl -sSL "$download_url" -o flux.tar.gz
+
+# Create a temporary directory
+tmp_dir=$(mktemp -d)
+
+# Untar the archive into the temporary directory
+tar -xf flux.tar.gz -C "$tmp_dir"
+
+# Locate the flux binary (assuming it's the only executable)
+flux_binary=$(find "$tmp_dir" -type f -executable)
+
+# Make sure we found the binary
+if [[ -z "$flux_binary" ]]; then
+  echo "Error: Could not locate flux binary in archive."
+  exit 1
+fi
+
+# Move the binary to your local bin directory
+mv "$flux_binary" ~/.local/bin/
+
+# Clean up
+rm flux.tar.gz
+rm -rf "$tmp_dir"
+
+echo "Flux version $flux_version installed successfully!"
+

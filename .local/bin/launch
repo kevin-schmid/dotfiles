@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+IFS=':'; \
+for p in ${PATH}; \
+do find -L "${p}" -type f -executable -print 2> /dev/null; done \
+| grep -v fzf | sort -u | fzf --layout=reverse | xargs -r swaymsg -t command exec

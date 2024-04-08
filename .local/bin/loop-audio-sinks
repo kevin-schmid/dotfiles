@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+sinks=$(pactl list sinks short | awk '{print $2}')
+current_sink=$(pactl get-default-sink)
+
+current_sink_index=0
+index=0
+for sink in $sinks; do
+    if [ "$sink" == "$current_sink" ]; then
+        current_sink_index=$index
+        break
+    fi
+    index=$((index+1))
+done
+
+next_sink_index=$(( (current_sink_index+1) % $(echo $sinks | wc -w) ))
+next_sink=$current_sink
+index=0
+for sink in $sinks; do
+    if [ $index -eq $next_sink_index ]; then
+        next_sink=$sink
+        break
+    fi
+    index=$((index+1))
+done
+
+pactl set-default-sink $next_sink

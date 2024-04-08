@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+# Get the latest version of helm
+helm_version=$(curl -s "https://get.helm.sh/helm-latest-version")
+
+# Download the release for your architecture (replace "linux_amd64" if needed)
+download_url="https://get.helm.sh/helm-${helm_version}-linux-amd64.tar.gz"
+curl -sSL "$download_url" -o helm.tar.gz
+
+# Create a temporary directory
+tmp_dir=$(mktemp -d)
+
+# Untar the archive into the temporary directory
+tar -xf helm.tar.gz -C "$tmp_dir"
+
+# Locate the helm binary (assuming it's the only executable)
+helm_binary=$(find "$tmp_dir" -type f -executable)
+
+# Make sure we found the binary
+if [[ -z "$helm_binary" ]]; then
+  echo "Error: Could not locate flux binary in archive."
+  exit 1
+fi
+
+# Move the binary to your local bin directory
+mv "$helm_binary" ~/.local/bin/
+
+# Clean up
+rm helm.tar.gz
+rm -rf "$tmp_dir"
+
+echo "Helm version $helm_version installed successfully!"
+
