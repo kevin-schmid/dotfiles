@@ -53,15 +53,17 @@ alias l='ls -lha'
 alias v='nvim'
 alias k='kubectl'
 alias klear='k delete pod --field-selector=status.phase!=Running'
+
 alias dotfiles='/usr/bin/git --git-dir=$XDG_CONFIG_HOME/dotfiles/ --work-tree=$HOME'
 function tf {
     terraform fmt -list=false
     terraform "$@"
 }
 
+alias g='git'
 alias gs='git status'
 alias ga='git add'
-alias gp='git push'
+alias gp='git pull'
 alias gd='git diff'
 alias gds='git diff --staged'
 function gc {
