@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Get all pods across all namespaces
+PODS=$(kubectl get pods -A -o go-template='{{ range .items }}{{ printf "%s %s\n" .metadata.namespace .metadata.name }}{{ end }}')
+
+# Use fzf to select a pod
+SELECTED_POD=$(echo "$PODS" | fzf --query="$@" -1)
+
+# Check if user selected a pod
+if [[ -z "$SELECTED_POD" ]]; then
+  exit 1
+fi
+
+# Extract pod name and namespace from selection
+POD_NAME=$(echo "$SELECTED_POD" | cut -d ' ' -f2)
+NAMESPACE=$(echo "$SELECTED_POD" | cut -d ' ' -f1)
+
+# Execute shell inside the selected pod
+echo "connecting to $NAMESPACE/$POD_NAME"
+kubectl exec --stdin --tty "$POD_NAME" -n "$NAMESPACE" -- /bin/sh
