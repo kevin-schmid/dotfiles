@@ -44,8 +44,31 @@ export npm_config_cache=$XDG_CACHE_HOME/npm
 export AZURE_CONFIG_DIR=$XDG_CONFIG_HOME/azure
 export GOPATH=$XDG_DATA_HOME/go
 export TF_CLI_CONFIG_FILE=$XDG_CONFIG_HOME/terraform/config.tfrc
+export XAUTHORITY=$XDG_RUNTIME_DIR/Xauthority
+export XINITRC=$XDG_CONFIG_HOME/X11/xinitrc
+export XSERVERRC=$XDG_CONFIG_HOME/X11/xserverrc
 
-# start window manager
-if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  exec sway
+if [ "${XDG_VTNR}" -eq 1 ]; then
+    # choose window manager
+    echo "i) i3"
+    echo "e) exit"
+    echo "*) sway (default)"
+
+    read -p "Choose window manager: " choice
+    case $choice in
+        'i')
+            export XDG_SESSION_TYPE=x11
+            exec startx
+            ;;
+        'e')
+            exec exit
+            ;;
+        *)
+            export XDG_SESSION_TYPE=wayland
+            exec sway
+            ;;
+    esac
 fi
+# if [ -z "${WAYLAND_DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
+#   exec sway
+# fi

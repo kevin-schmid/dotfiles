@@ -63,9 +63,10 @@ function tf {
 alias g='git'
 alias gs='git status'
 alias ga='git add'
+alias gb='git checkout -b'
 alias gp='git pull'
 alias gd='git diff'
 alias gds='git diff --staged'
-function gc {
-    git commit -m "$@"
-}
+alias gc='git commit -m'
+alias gu='git push'
+

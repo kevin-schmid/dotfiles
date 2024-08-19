@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
+if [ "${XDG_SESSION_TYPE}" = "wayland" ]; then
 IFS=':'; \
 for p in ${PATH}; \
-do find -L "${p}" -type f -executable -print 2> /dev/null; done \
-| grep -v fzf | sort -u | fzf --layout=reverse | xargs -r swaymsg -t command exec
+  do find -L "${p}" -type f -executable -print 2> /dev/null; done \
+  | grep -v fzf | sort -u | fzf --layout=reverse | xargs -r swaymsg -t command exec
+else
+IFS=':'; \
+for p in ${PATH}; \
+  do find -L "${p}" -type f -executable -print 2> /dev/null; done \
+  | grep -v fzf | sort -u | fzf --layout=reverse | xargs -r i3-msg exec
+fi
