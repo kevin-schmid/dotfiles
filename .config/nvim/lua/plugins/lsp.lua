@@ -76,7 +76,7 @@ return {
             })
 
             require('mason-lspconfig').setup({
-                ensure_installed = {'yamlls'},
+                ensure_installed = {'angularls', 'bashls', 'dockerls', 'gopls', 'helm-ls', 'html-lsp', 'lua_ls', 'terraformls', 'tsserver', 'yamlls'},
                 handlers = {
                     lsp_zero.default_setup,
                     lua_ls = function()
