@@ -133,5 +133,5 @@ bar {
     }
 }
 exec_always gammastep
-
+exec mako
 include /etc/sway/config.d/*
