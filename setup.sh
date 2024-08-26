@@ -8,7 +8,7 @@ mv $HOME/.bashrc $HOME/.bashrc_bak
 git --git-dir=$HOME/.config/dotfiles pull https://github.com/kevin-schmid/dotfiles.git main
 source .profile
 source .bashrc
-sudo apt install -y curl gcc fzf sway i3blocks swaybg foot xdg-desktop-portal-wlr xwayland alsa-utils grimshot mako-notifier mesa-vulkan-drivers vulkan-tools network-manager pavucontrol pipewire-audio flatpak gammastep
+sudo apt install -y curl gcc fzf sway i3blocks swaybg foot xdg-desktop-portal-wlr xwayland alsa-utils grimshot mako-notifier mesa-vulkan-drivers vulkan-tools network-manager pavucontrol pipewire-audio flatpak gammastep ripgrep
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 rm .bash_logout
 rm .lesshst
