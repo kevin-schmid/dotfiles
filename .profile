@@ -11,8 +11,8 @@
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
+    if [ -f "$HOME/config/bashrc" ]; then
+	. "$HOME/config/bashrc"
     fi
 fi
 
@@ -34,7 +34,9 @@ export XDG_DATA_HOME=$HOME/.local/share
 export XDG_STATE_HOME=$HOME/.local/state
 
 # respect XDG
+mkdir "$XDG_DATA_HOME/bash"
 export HISTFILE="$XDG_DATA_HOME/bash/history"
+mkdir "$XDG_DATA_HOME/less"
 export LESSHISTFILE="$XDG_DATA_HOME/less/history"
 export GNUPGHOME=$XDG_CONFIG_HOME/gnupg/
 export KUBECONFIG=$XDG_CONFIG_HOME/kube/config
