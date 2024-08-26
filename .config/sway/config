@@ -125,6 +125,7 @@ bar {
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
     status_command i3blocks
+    font pango:Cousine, Icons 10
 
     colors {
         statusline #ffffff
