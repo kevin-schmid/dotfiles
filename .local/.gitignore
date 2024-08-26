@@ -1,0 +1,7 @@
+**
+!/.gitignore
+!/bin/launch
+!/bin/loop-audio-sink
+!/bin/klogs
+!/bin/ksh
+!/bin/update*
