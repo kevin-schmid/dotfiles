@@ -14,3 +14,4 @@ rm .bash_logout
 rm .lesshst
 rm .*_bak
 rm .git
+echo 'Defaults !admin_flag' | sudo tee /etc/sudoers.d/disable_sudo-as-admin-successful_file
