@@ -1,6 +1,8 @@
-dotfiles/
-pulse/
-nvm/
+azure/
 dconf/
-go/telemetry/
+dotfiles/
 github-copilot/
+go/telemetry/
+kube/
+nvm/
+pulse/
