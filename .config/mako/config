@@ -1,0 +1,17 @@
+default-timeout=10000
+
+
+# colors
+background-color=#faf4ed
+text-color=#575279
+border-color=#d7827e
+border-radius=3
+
+# misc
+output=DP-1
+layer=overlay
+format=<b>%a</b>\n<b>%s</b>\n%b
+
+
+[urgency=high]
+ignore-timeout=1
