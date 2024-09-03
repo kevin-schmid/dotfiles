@@ -152,12 +152,16 @@ bar {
     # The default just shows the current date and time.
     status_command i3blocks
     font pango:Cousine, Icons 10
+    workspace_min_width 40
 
     colors {
         statusline $text
         background $base
         #                  border background text
-        inactive_workspace #32323200 #32323200 #5c5c5c
+        focused_workspace  $love  $love      $surface
+        active_workspace   $love  $base      $love
+        urgent_workspace   $pine  $pine      $surface
+        inactive_workspace $text  $base      $text
     }
 }
 exec_always gammastep
