@@ -61,12 +61,13 @@ function tf {
 }
 
 alias g='git'
-alias gs='git status'
 alias ga='git add'
 alias gb='git checkout -b'
-alias gp='git pull'
+alias gc='git commit -m'
 alias gd='git diff'
 alias gds='git diff --staged'
-alias gc='git commit -m'
+alias gl="git log --graph --pretty=format:'%Cred%h %Cgreen%cs %Cblue%an%Creset:%C(yellow)%d%Creset %s %Creset' --abbrev-commit"
+alias gm='git checkout main'
+alias gp='git pull'
+alias gs='git status'
 alias gu='git push'
-
