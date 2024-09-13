@@ -1,3 +1,7 @@
 [user]
 	email = schmid.kevin.manuel@gmail.com
 	name = Kevin Schmid
+[pull]
+	ff = only
+[init]
+	defaultBranch = main
