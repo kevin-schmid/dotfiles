@@ -41,6 +41,9 @@ if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
 
+# mise activate
+eval "$(/home/kevin/.local/bin/mise activate bash)"
+
 # aliases
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
