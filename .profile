@@ -34,15 +34,15 @@ export XDG_DATA_HOME=$HOME/.local/share
 export XDG_STATE_HOME=$HOME/.local/state
 
 # respect XDG
-export HISTFILE="$XDG_DATA_HOME/bash/history"
-export LESSHISTFILE="$XDG_DATA_HOME/less/history"
-export GNUPGHOME=$XDG_CONFIG_HOME/gnupg/
-export KUBECONFIG=$XDG_CONFIG_HOME/kube/config
-export KUBECACHEDIR=$XDG_CACHE_HOME/kube
-export npm_config_userconfig=$XDG_CONFIG_HOME/npm/config
-export npm_config_cache=$XDG_CACHE_HOME/npm
 export AZURE_CONFIG_DIR=$XDG_CONFIG_HOME/azure
 export GOPATH=$XDG_DATA_HOME/go
+export GNUPGHOME=$XDG_CONFIG_HOME/gnupg/
+export HISTFILE="$XDG_DATA_HOME/bash/history"
+export KUBECACHEDIR=$XDG_CACHE_HOME/kube
+export KUBECONFIG=$XDG_CONFIG_HOME/kube/config
+export LESSHISTFILE="$XDG_DATA_HOME/less/history"
+export npm_config_cache=$XDG_CACHE_HOME/npm
+export npm_config_userconfig=$XDG_CONFIG_HOME/npm/config
 export TF_CLI_CONFIG_FILE=$XDG_CONFIG_HOME/terraform/config.tfrc
 export XAUTHORITY=$XDG_RUNTIME_DIR/Xauthority
 export XINITRC=$XDG_CONFIG_HOME/X11/xinitrc

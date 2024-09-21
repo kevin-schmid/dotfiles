@@ -71,7 +71,7 @@ return {
             end)
             local cfg = require('yaml-companion').setup({
                 builtin_matchers = {
-                    kubernetes_crd = { enabled = true }
+                    kubernetes = { enabled = true }
                 }
             })
 

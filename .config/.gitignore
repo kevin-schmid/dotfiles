@@ -5,7 +5,6 @@ github-copilot/
 go/telemetry/
 helm/
 kube/
-nvm/
 obs-studio/
 terraform/
 pulse/
