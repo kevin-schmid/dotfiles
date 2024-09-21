@@ -4,11 +4,24 @@ case $- in
       *) return;;
 esac
 
-# bash config
-HISTCONTROL=ignoreboth
-HISTSIZE=1000
-HISTFILESIZE=2000
-shopt -s histappend
+# HISTORY CONFIG
+HISTCONTROL=ignoredups:erasedups # ignore duplicates
+HISTSIZE=100000 # in mem history
+HISTFILESIZE=$HISTSIZE # file size
+shopt -s histreedit # reedit a hist substitution if failed
+shopt -s histverify # edut a recalled hist line before exec
+
+_bash_history_sync() {
+    builtin history -a # append command right away
+    HISTFILESIZE=$HISTSIZE # triggers resize
+}
+
+history() {
+    _bash_history_sync 
+    builtin history "$@"
+}
+PROMPT_COMMAND=_bash_history_sync
+
 shopt -s checkwinsize
 if ! shopt -oq posix; then
     if [ -f /usr/share/bash-completion/bash_completion ]; then
