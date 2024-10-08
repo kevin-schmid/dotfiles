@@ -76,7 +76,7 @@ return {
             })
 
             require('mason-lspconfig').setup({
-                ensure_installed = {'angularls', 'bashls', 'cssls', 'dockerls', 'gopls', 'helm_ls', 'html', 'lua_ls', 'terraformls', 'tsserver', 'yamlls'},
+                ensure_installed = {'angularls', 'bashls', 'cssls', 'dockerls', 'gopls', 'helm_ls', 'html', 'lua_ls', 'terraformls', 'ts_ls', 'yamlls'},
                 handlers = {
                     lsp_zero.default_setup,
                     lua_ls = function()
