@@ -1,0 +1,12 @@
+shell-integration-features = cursor,sudo,title
+
+theme = rose-pine-dawn
+
+font-family = "Cousine Nerd Font"
+font-size = 16
+adjust-cell-height = 20%
+
+clipboard-read = allow
+clipboard-write = allow
+clipboard-paste-protection = false
+copy-on-select = clipboard
