@@ -6,6 +6,9 @@
   home.stateVersion = "25.05"; # Check home-manager release before changing
 
   programs.home-manager.enable = true;
+  home.shellAliases = {
+    
+  };
 
   programs.firefox = {
     enable = true;
@@ -13,8 +16,13 @@
 
   programs.bash = {
     enable = true;
-    bashrcExtra = ''
-PS1="> "
+    initExtra = ''
+      PS1="> "
+      
+      tf() { 
+          tofu fmt -list=false
+          tofu "$@" 
+      }
     '';
   };
 

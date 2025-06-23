@@ -6,6 +6,9 @@ font-family = "Cousine Nerd Font"
 font-size = 16
 adjust-cell-height = 20%
 
+window-padding-x = 16
+window-padding-y = 16
+
 clipboard-read = allow
 clipboard-write = allow
 clipboard-paste-protection = false

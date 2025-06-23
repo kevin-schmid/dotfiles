@@ -21,6 +21,7 @@
           tmux
           nerd-fonts.cousine
           fzf
+          yq
           ripgrep
           spotify
           azure-cli
@@ -33,9 +34,8 @@
       homebrew = {
         enable = true;
         taps = [];
-        brews = [];
-        casks = [ "ghostty" "google-chrome" ];
-        
+        brews = [ "kubelogin" ];
+        casks = [ "ghostty" "google-chrome" "nimble-commander" ];
       };
 
       system.primaryUser = "kevin.schmid";
