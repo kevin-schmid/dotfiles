@@ -18,15 +18,13 @@
           vim
           home-manager
           neovim
-          tmux
           nerd-fonts.cousine
           fzf
           yq
           ripgrep
-          spotify
           azure-cli
-          kubectl
-          opentofu
+          podman
+          devenv
         ];
       fonts.packages = [
           pkgs.nerd-fonts.cousine
@@ -34,8 +32,21 @@
       homebrew = {
         enable = true;
         taps = [];
-        brews = [ "kubelogin" ];
-        casks = [ "ghostty" "google-chrome" "nimble-commander" ];
+        brews = [
+          "dive"
+        ];
+        casks = [
+          "ghostty" 
+          "google-chrome" 
+          "nimble-commander" 
+          "spotify"
+          "linearmouse"
+        ];
+        onActivation = { 
+            cleanup = "zap";
+            autoUpdate = true;
+            upgrade = true;
+        };
       };
 
       system.primaryUser = "kevin.schmid";
@@ -66,14 +77,25 @@
       system.stateVersion = 6;
       system.startup.chime = false;
       system.keyboard.enableKeyMapping = true;
-      system.keyboard.swapLeftCommandAndLeftAlt = true;
+      system.keyboard.swapLeftCommandAndLeftAlt = false;
       system.defaults = {
         NSGlobalDomain = {
           AppleShowAllExtensions = true;
+          AppleShowAllFiles = true;
+          NSAutomaticCapitalizationEnabled = false;
+          NSAutomaticDashSubstitutionEnabled = false;
+          NSAutomaticInlinePredictionEnabled = false;
           NSAutomaticPeriodSubstitutionEnabled = false;
+          NSAutomaticQuoteSubstitutionEnabled = false;
+          NSAutomaticSpellingCorrectionEnabled = false;
+          NSDocumentSaveNewDocumentsToCloud = false;
         };
         dock = {
           autohide = true;
+          autohide-delay = 0.01;
+          autohide-time-modifier = 0.1;
+          show-recents = false;
+          tilesize = 48;
         };
         ".GlobalPreferences" = {
             "com.apple.mouse.scaling" = -1.0;
@@ -151,37 +173,36 @@ sketchybar --update
                 inner.horizontal = 16;
                 inner.vertical   = 16;
             };
+            on-window-detected = [
+                {
+                    check-further-callbacks = true;
+                    "if".window-title-regex-substring = "Launch";
+                    run = [ "layout floating" ];
+                }
+            ];
             mode.main.binding = {
-                cmd-h = "focus --boundaries-action wrap-around-the-workspace left";
-                cmd-j = "focus --boundaries-action wrap-around-the-workspace down";
-                cmd-k = "focus --boundaries-action wrap-around-the-workspace up";
-                cmd-l = "focus --boundaries-action wrap-around-the-workspace right";
-                cmd-shift-h = "move left";
-                cmd-shift-j = "move down";
-                cmd-shift-k = "move up";
-                cmd-shift-l = "move right";
-                cmd-ctrl-h = "join-with left";
-                cmd-ctrl-j = "join-with down";
-                cmd-ctrl-k = "join-with up";
-                cmd-ctrl-l = "join-with right";
-                cmd-1 = "workspace 1";
-                cmd-2 = "workspace 2";
-                cmd-3 = "workspace 3";
-                cmd-4 = "workspace 4";
-                cmd-5 = "workspace 5";
-                cmd-6 = "workspace 6";
-                cmd-7 = "workspace 7";
-                cmd-8 = "workspace 8";
-                cmd-9 = "workspace 9";
-                cmd-shift-1 = "move-node-to-workspace 1";
-                cmd-shift-2 = "move-node-to-workspace 2";
-                cmd-shift-3 = "move-node-to-workspace 3";
-                cmd-shift-4 = "move-node-to-workspace 4";
-                cmd-shift-5 = "move-node-to-workspace 5";
-                cmd-shift-6 = "move-node-to-workspace 6";
-                cmd-shift-7 = "move-node-to-workspace 7";
-                cmd-shift-8 = "move-node-to-workspace 8";
-                cmd-shift-9 = "move-node-to-workspace 9";
+                alt-h = "focus --boundaries-action wrap-around-the-workspace left";
+                alt-j = "focus --boundaries-action wrap-around-the-workspace down";
+                alt-k = "focus --boundaries-action wrap-around-the-workspace up";
+                alt-l = "focus --boundaries-action wrap-around-the-workspace right";
+                alt-shift-h = "move left";
+                alt-shift-j = "move down";
+                alt-shift-k = "move up";
+                alt-shift-l = "move right";
+                alt-ctrl-h = "join-with left";
+                alt-ctrl-j = "join-with down";
+                alt-ctrl-k = "join-with up";
+                alt-ctrl-l = "join-with right";
+                alt-a = "workspace 1";
+                alt-s = "workspace 2";
+                alt-d = "workspace 3";
+                alt-f = "workspace 4";
+                alt-g = "workspace 5";
+                alt-shift-a = "move-node-to-workspace 1";
+                alt-shift-s = "move-node-to-workspace 2";
+                alt-shift-d = "move-node-to-workspace 3";
+                alt-shift-f = "move-node-to-workspace 4";
+                alt-shift-g = "move-node-to-workspace 5";
             };
         };
       };

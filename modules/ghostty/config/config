@@ -1,6 +1,8 @@
-shell-integration-features = cursor,sudo,title
+shell-integration-features = cursor,sudo,no-title
 
 theme = rose-pine-dawn
+macos-titlebar-proxy-icon = hidden
+title = " "
 
 font-family = "Cousine Nerd Font"
 font-size = 16
