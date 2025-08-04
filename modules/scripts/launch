@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+app=$(find /Applications ~/Applications /System/Applications -maxdepth 2 -name "*.app" -type d 2>/dev/null \
+  | sed 's:.*/::; s:\.app$::' \
+  | sort -u \
+  | fzf --prompt="Open app: ")
+
+if [[ -n "$app" ]]; then
+  open -a "$app"
+fi
+
