@@ -20,8 +20,8 @@
           neovim
           yq
           ripgrep
-          azure-cli
           podman
+          podman-compose
           devenv
         ];
       fonts.packages = [
@@ -39,6 +39,7 @@
           "nimble-commander" 
           "spotify"
           "linearmouse"
+          "intellij-idea-ce"
         ];
         onActivation = { 
             cleanup = "zap";

@@ -9,11 +9,14 @@
     home.shell.enableBashIntegration = true;
     xdg.enable = true;
     home.packages = with pkgs; [
+        (azure-cli.withExtensions [ azure-cli.extensions.aks-preview ])
+        stackit-cli
         opentofu
-            kubectl
-            kubelogin
-            kubelogin-oidc
-            kubernetes-helm
+        kubectl
+        kubelogin-oidc
+        kubernetes-helm
+        nodejs_24
+        jdk21_headless
     ];
     home.shellAliases = {
         ls = "ls --color=auto";
@@ -27,6 +30,13 @@
     };
 
     programs.firefox = {
+        enable = true;
+    };
+    programs.java = {
+        enable = true;
+        package = pkgs.jdk21_headless;
+    };
+    programs.go = {
         enable = true;
     };
 
@@ -72,7 +82,6 @@
             plugin = tmuxPlugins.rose-pine;
             extraConfig = "set -g @rose_pine_variant 'dawn'";
         }
-
     ];
   };
 
