@@ -9,14 +9,15 @@
     home.shell.enableBashIntegration = true;
     xdg.enable = true;
     home.packages = with pkgs; [
-        (azure-cli.withExtensions [ azure-cli.extensions.aks-preview ])
+        (azure-cli.withExtensions [ azure-cli.extensions.aks-preview azure-cli.extensions.quota ])
         stackit-cli
         opentofu
+        podman
         kubectl
         kubelogin-oidc
         kubernetes-helm
-        nodejs_24
         jdk21_headless
+        maven
     ];
     home.shellAliases = {
         ls = "ls --color=auto";
@@ -60,8 +61,7 @@
       tf() { 
           tofu fmt -list=false
           tofu "$@" 
-      }
-    '';
+      }'';
   };
   programs.starship = {
     enable = true;
@@ -74,6 +74,7 @@
     clock24 = true;
     baseIndex = 1;
     keyMode = "vi";
+    escapeTime = 0;
     mouse = true;
     newSession = true;
     shell = "${pkgs.bash}/bin/bash";
@@ -97,15 +98,18 @@
 
   programs.git = {
     enable = true;
-    userEmail = "schmid.kevin.manuel@gmail.com";
-    userName = "Kevin Schmid";
+    settings.user = {
+        email = "schmid.kevin.manuel@gmail.com";
+        name = "Kevin Schmid";
+    };
   };
       # Window manager
   programs.aerospace = {
       enable = true;
       launchd.enable = true;
-      userSettings = {
-          after-startup-command = ["exec-and-forget ${pkgs.sketchybar}/bin/sketchybar"];
+      settings = {
+          after-startup-command = ["exec-and-forget ${pkgs.sketchybar}/bin/sketchybar --reload"];
+          exec-on-workspace-change = ["/bin/bash" "-c" "${pkgs.sketchybar}/bin/sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE"];
           gaps = {
               outer.top        = 16;
               outer.left       = 16;
@@ -114,13 +118,6 @@
               inner.horizontal = 16;
               inner.vertical   = 16;
           };
-          on-window-detected = [
-            {
-              check-further-callbacks = true;
-              "if".window-title-regex-substring = "Launch";
-              run = [ "layout floating" ];
-            }
-          ];
           key-mapping.key-notation-to-key-code = {
               mminus = "slash";
               mplus = "rightSquareBracket";
@@ -134,30 +131,27 @@
               mcircumflex = "sectionSign";
           };
           mode.main.binding = {
-              alt-w = "mode window";
-          };
-          mode.window.binding = {
-              alt-c = "mode main";
-              h = "focus --boundaries-action wrap-around-the-workspace left";
-              j = "focus --boundaries-action wrap-around-the-workspace down";
-              k = "focus --boundaries-action wrap-around-the-workspace up";
-              l = "focus --boundaries-action wrap-around-the-workspace right";
-              shift-h = "move left";
-              shift-j = "move down";
-              shift-k = "move up";
-              shift-l = "move right";
-              "1" = "workspace 1";
-              "2" = "workspace 2";
-              "3" = "workspace 3";
-              "4" = "workspace 4";
-              "5" = "workspace 5";
-              shift-1 = "move-node-to-workspace 1";
-              shift-2 = "move-node-to-workspace 2";
-              shift-3 = "move-node-to-workspace 3";
-              shift-4 = "move-node-to-workspace 4";
-              shift-5 = "move-node-to-workspace 5";
-              mminus = "resize smart -50";
-              mplus = "resize smart +50";
+              alt-cmd-ctrl-h = "focus --boundaries-action wrap-around-the-workspace left";
+              alt-cmd-ctrl-j = "focus --boundaries-action wrap-around-the-workspace down";
+              alt-cmd-ctrl-k = "focus --boundaries-action wrap-around-the-workspace up";
+              alt-cmd-ctrl-l = "focus --boundaries-action wrap-around-the-workspace right";
+              alt-cmd-ctrl-shift-h = "move left";
+              alt-cmd-ctrl-shift-j = "move down";
+              alt-cmd-ctrl-shift-k = "move up";
+              alt-cmd-ctrl-shift-l = "move right";
+              alt-cmd-ctrl-1 = "workspace 1";
+              alt-cmd-ctrl-2 = "workspace 2";
+              alt-cmd-ctrl-3 = "workspace 3";
+              alt-cmd-ctrl-4 = "workspace 4";
+              alt-cmd-ctrl-5 = "workspace 5";
+              alt-cmd-ctrl-shift-1 = "move-node-to-workspace 1";
+              alt-cmd-ctrl-shift-2 = "move-node-to-workspace 2";
+              alt-cmd-ctrl-shift-3 = "move-node-to-workspace 3";
+              alt-cmd-ctrl-shift-4 = "move-node-to-workspace 4";
+              alt-cmd-ctrl-shift-5 = "move-node-to-workspace 5";
+              alt-cmd-ctrl-mminus = "resize smart -50";
+              alt-cmd-ctrl-mplus = "resize smart +50";
+              alt-cmd-ctrl-v = "layout tiles horizontal vertical";
           };
       };
   };
@@ -210,6 +204,51 @@ ${pkgs.sketchybar}/bin/sketchybar --update'';
     enable = true;
     text = ''
     plugin_cache_dir = "$XDG_CACHE_HOME/opentofu"'';
+  };
+
+  xdg.configFile."karabiner/karabiner.json" = {
+    enable = true;
+    text = ''
+    {
+      "global": {
+        "check_for_updates_on_startup": false,
+        "show_in_menu_bar": false,
+        "show_profile_name_in_menu_bar": false
+      },
+      "profiles": [{
+        "name": "default",
+        "selected": true,
+        "complex_modifications": {
+          "rules": [
+            {
+              "description": "Capslock to HYPER",
+              "manipulators": [
+              {
+                  "from": {
+                    "key_code": "caps_lock",
+                    "modifiers": {
+                      "optional": ["any"]
+                    }
+                  },
+                  "to": [
+                    {
+                      "key_code": "left_command",
+                      "modifiers": ["left_control", "left_option"]
+                    }
+                  ],
+                  "to_if_alone": [
+                    {
+                      "key_code": "escape"
+                    }
+                  ],
+                  "type": "basic"
+              }
+              ]
+            }
+          ]
+        }
+      }]
+    }'';
   };
 
   xdg.configFile.ghostty = {

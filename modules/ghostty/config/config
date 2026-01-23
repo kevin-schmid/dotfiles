@@ -1,6 +1,6 @@
 shell-integration-features = cursor,sudo,no-title
 
-theme = rose-pine-dawn
+theme = light:rose-pine-dawn,dark:rose-pine
 macos-titlebar-proxy-icon = hidden
 title = " "
 
