@@ -1,44 +1,27 @@
 return {
+  {
     "nvim-treesitter/nvim-treesitter",
-    lazy = false,
     build = ":TSUpdate",
     config = function()
-        local configs = require("nvim-treesitter.configs")
-        configs.setup({
-            ensure_installed = {
-                "angular",
-                "bash",
-                "c",
-                "cmake",
-                "c_sharp",
-                "css",
-                "dockerfile",
-                "git_config",
-                "gitignore",
-                "go",
-                "gomod",
-                "gotmpl",
-                "gitignore",
-                "hcl",
-                "helm",
-                "html",
-                "java",
-                "javascript",
-                "json",
-                "lua",
-                "markdown",
-                "nginx",
-                "nix",
-                "python",
-                "query",
-                "regex",
-                "rust",
-                "templ",
-                "typescript",
-                "vim",
-                "vimdoc",
-                "yaml",
-            },
-        })
+      local ok, ts = pcall(require, "nvim-treesitter.configs")
+      if not ok then return end
+
+      ts.setup({
+        ensure_installed = {
+          "go",
+          "gomod",
+          "lua",
+          "json",
+          "bash",
+          "yaml",
+          "dockerfile",
+          "terraform",
+          "nix",
+        },
+        highlight = { enable = true },
+        indent = { enable = true },
+        incremental_selection = { enable = true },
+      })
     end,
+  }
 }

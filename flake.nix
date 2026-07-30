@@ -15,6 +15,8 @@
             nixpkgs.config.allowUnfree = true;
             environment.systemPackages = with pkgs; [
                 git
+                parallel
+                tree
                 gnupg
                 nerd-fonts.cousine
                 fzf
@@ -22,28 +24,39 @@
                 yq
                 ripgrep
                 devenv
+                bruno
+                skopeo
+                cursor-cli
+                lima
+                cosign
+                gitsign
             ];
             fonts.packages = [
                 pkgs.nerd-fonts.cousine
             ];
             homebrew = {
                 enable = true;
-                taps = [];
+                global.brewfile = true;
+                taps = [
+                ];
                 brews = [
                     "dive"
+                    "opencode"
                 ];
                 casks = [
                     "equinox"
+                    "dbeaver-community"
+                    "discord"
                     "ghostty" 
                     "google-chrome"
                     "intellij-idea-ce"
                     "linearmouse"
-                    "nimble-commander" 
                     "spotify"
+                    "windows-app"
                 ];
                 onActivation = { 
-                    cleanup = "zap";
                     autoUpdate = true;
+                    cleanup = "uninstall";
                     upgrade = true;
                 };
             };
@@ -84,7 +97,7 @@
                     NSAutomaticSpellingCorrectionEnabled = false;
                     NSAutomaticWindowAnimationsEnabled = false;
                     NSDocumentSaveNewDocumentsToCloud = false;
-                    "com.apple.trackpad.scaling" = 3.0;
+                    "com.apple.trackpad.scaling" = 2.0;
                 };
                 dock = {
                     autohide = true;
@@ -92,6 +105,9 @@
                     autohide-time-modifier = 0.1;
                     show-recents = false;
                     tilesize = 48;
+                };
+                finder = {
+                    QuitMenuItem = true;
                 };
                 screencapture = {
                     include-date = true;
@@ -117,17 +133,16 @@
             };
             services.karabiner-elements = {
                 enable = true;
-# https://github.com/nix-darwin/nix-darwin/issues/1041
                 package = pkgs.karabiner-elements.overrideAttrs (old: {
-                        version = "14.13.0";
+                  version = "14.13.0";
 
-                        src = pkgs.fetchurl {
-                        inherit (old.src) url;
-                        hash = "sha256-gmJwoht/Tfm5qMecmq1N6PSAIfWOqsvuHU8VDJY8bLw=";
-                        };
+                  src = pkgs.fetchurl {
+                    inherit (old.src) url;
+                    hash = "sha256-gmJwoht/Tfm5qMecmq1N6PSAIfWOqsvuHU8VDJY8bLw=";
+                  };
 
-                        dontFixup = true;
-                        });
+                  dontFixup = true;
+                });
             };
 
             services.jankyborders = {
@@ -142,7 +157,7 @@
     {
 # $ darwin-rebuild build --flake .#MAC-HF3F9FNP25
         darwinConfigurations."MAC-HF3F9FNP25" = nix-darwin.lib.darwinSystem {
-            modules = [ 
+            modules = [
                 configuration
                 home-manager.darwinModules.home-manager
                 {

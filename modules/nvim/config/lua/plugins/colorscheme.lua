@@ -4,6 +4,9 @@ return {
 	config = function()
         require("rose-pine").setup({
           variant = "dawn",
+          styles = {
+            transparency = true
+          },
           highlight_groups = {
             TelescopeBorder = { fg = "highlight_high", bg = "none" },
             TelescopeNormal = { bg = "none" },

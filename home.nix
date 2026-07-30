@@ -14,10 +14,15 @@
         opentofu
         podman
         kubectl
+        k9s
         kubelogin-oidc
         kubernetes-helm
         jdk21_headless
+        nodejs_24
         maven
+        argocd
+        syft
+        oras
     ];
     home.shellAliases = {
         ls = "ls --color=auto";
@@ -48,6 +53,7 @@
     historyFileSize = 100000;
     shellOptions = [ "histverify" ];
     bashrcExtra = ''
+      eval "$(/opt/homebrew/bin/brew shellenv)"
       _bash_history_sync() {
           builtin history -a # append command right away
           HISTFILESIZE=100000 # triggers resize
@@ -81,9 +87,25 @@
     plugins = with pkgs; [
         {
             plugin = tmuxPlugins.rose-pine;
-            extraConfig = "set -g @rose_pine_variant 'dawn'";
+            extraConfig = ''
+                set -g @rose_pine_variant "dawn"
+                set -g @rose_pine_bar_bg_disable 'on'
+                set -g @rose_pine_bar_bg_disabled_color_option 'default'
+              '';
         }
     ];
+    extraConfig = ''
+        set-option -g status 2
+        set-option -g status-format[1] ""
+        set-option -g status-position top
+        set-option -g status-justify absolute-centre
+        set-option -g window-status-separator " • "
+        set-option -g window-status-format " #W "
+        set-option -g window-status-current-format " #W "
+        set-option -g status-left-length 100
+        set-option -g status-right-length 100
+        set-option -g status-left '#[fg=#b4637a] #(kubectl config current-context)'
+      '';
   };
 
   home.file = {
@@ -98,6 +120,7 @@
 
   programs.git = {
     enable = true;
+    lfs.enable = true;
     settings.user = {
         email = "schmid.kevin.manuel@gmail.com";
         name = "Kevin Schmid";
@@ -249,6 +272,12 @@ ${pkgs.sketchybar}/bin/sketchybar --update'';
         }
       }]
     }'';
+  };
+
+  xdg.configFile.k9s = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix/modules/k9s";
+    recursive = true;
+    force = true;
   };
 
   xdg.configFile.ghostty = {

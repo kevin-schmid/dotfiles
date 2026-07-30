@@ -1,17 +1,20 @@
-local fn, cmd = vim.fn, vim.cmd
-
 function StatusLine()
-  local branch = fn.FugitiveHead()
+  local branch = vim.fn.FugitiveHead()
 
   if branch and #branch > 0 then
-    branch = " "..branch
+    branch = " " .. branch
+  end
+  local errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+  local icon
+  if errors > 0 then
+    icon = "✖"
+  elseif vim.bo.modified then
+    icon = ""
+  else
+    icon = ""
   end
 
-  if vim.bo.modified then
-    return " %f  %= %l:%c "..branch
-  end
-
-  return " %f %= %l:%c "..branch
+  return icon .. " %f %= %l:%c " .. branch
 end
 
-cmd[[ set statusline=%!luaeval('StatusLine()') ]]
+vim.cmd [[ set statusline=%!luaeval('StatusLine()') ]]

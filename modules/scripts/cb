@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -uo pipefail
+
+out=$("$@" 2>&1)
+status=$?
+
+printf '%s\n' "$out"
+printf '$ %s\n%s\n' "$*" "$out" | pbcopy
+
+exit $status
