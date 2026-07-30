@@ -43,7 +43,11 @@ return {
 
       cmp.setup({
         completion = {
-          autocomplete = false, -- manual only
+          completeopt = "menu,menuone,noselect",
+        },
+        performance = {
+          debounce = 60,
+          throttle = 30,
         },
         snippet = {
           expand = function(args)
@@ -51,10 +55,23 @@ return {
           end,
         },
         mapping = cmp.mapping.preset.insert({
+          ["<C-Space>"] = cmp.mapping.complete(),
+          ["<C-@>"] = cmp.mapping.complete(),
           ["<C-a>"] = cmp.mapping.complete(),
+          ["<C-e>"] = cmp.mapping.abort(),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
           ["<C-p>"] = cmp.mapping.select_prev_item(),
           ["<C-n>"] = cmp.mapping.select_next_item(),
+          ["<BS>"] = cmp.mapping(function(fallback)
+            fallback()
+            vim.schedule(function()
+              local col = vim.fn.col(".") - 1
+              local before = vim.fn.getline("."):sub(1, col)
+              if before:match("[%w_]$") == nil then
+                cmp.close()
+              end
+            end)
+          end, { "i" }),
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
@@ -75,9 +92,9 @@ return {
           end, { "i", "s" }),
         }),
         sources = {
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-          { name = "buffer" },
+          { name = "nvim_lsp", keyword_length = 1 },
+          { name = "luasnip", keyword_length = 2 },
+          { name = "buffer", keyword_length = 3 },
         },
         experimental = {
           ghost_text = false,

@@ -16,3 +16,5 @@ clipboard-read = allow
 clipboard-write = allow
 clipboard-paste-protection = false
 copy-on-select = clipboard
+
+keybind = ctrl+space=text:\x00
