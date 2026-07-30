@@ -211,7 +211,7 @@ ${pkgs.sketchybar}/bin/sketchybar --add item chevron left \
            --set chevron label.drawing=off \
            --add item front_app left \
            --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
-           --subscribe front_app front_app_switched
+           --subscribe front_app front_app_switched aerospace_workspace_change
 ${pkgs.sketchybar}/bin/sketchybar --add item clock right \
            --set clock update_freq=10 icon=  script="$PLUGIN_DIR/clock.sh" \
            --add item volume right \
@@ -288,6 +288,12 @@ ${pkgs.sketchybar}/bin/sketchybar --update'';
 
   xdg.configFile.nvim = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix/modules/nvim/config";
+    recursive = true;
+    force = true;
+  };
+
+  xdg.configFile."sketchybar/plugins" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix/modules/sketchybar/config/plugins";
     recursive = true;
     force = true;
   };
