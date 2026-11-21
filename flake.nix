@@ -27,7 +27,6 @@
                 devenv
                 bruno
                 skopeo
-                cursor-cli
                 lima
                 cosign
                 gitsign

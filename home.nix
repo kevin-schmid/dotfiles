@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+    imports = [ ./modules/scripts ];
+
     home.username = "kevin.schmid";
     home.homeDirectory = "/Users/kevin.schmid";
     home.stateVersion = "25.05"; # Check home-manager release before changing
@@ -14,7 +16,6 @@
         opentofu
         podman
         kubectl
-        k9s
         kubelogin-oidc
         kubernetes-helm
         jdk21_headless
@@ -167,10 +168,6 @@
   };
 
   home.file = {
-      ".local/bin/" = {
-          source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix/modules/scripts";
-          recursive = true;
-      };
       ".cache/opentofu/.home-manager" = {
           text = "workaround file to create directory";
       };
@@ -247,7 +244,7 @@
         pkgs.aerospace
     ];
     config = ''
-PLUGIN_DIR="/Users/kevin.schmid/.config/sketchybar/plugins"
+PLUGIN_DIR="${./modules/sketchybar/config/plugins}"
 ${pkgs.sketchybar}/bin/sketchybar --bar position=top height=40 blur_radius=30 color=0xFF000000
 ${pkgs.sketchybar}/bin/sketchybar --default \
   padding_left=5 \
@@ -284,6 +281,10 @@ ${pkgs.sketchybar}/bin/sketchybar --add item clock right \
            --subscribe battery system_woke power_source_change
 ${pkgs.sketchybar}/bin/sketchybar --update'';
   };
+
+  xdg.configFile."sketchybar/sketchybarrc".onChange = ''
+    /bin/launchctl kickstart -k "gui/$(id -u)/org.nix-community.home.sketchybar" || true
+  '';
 
   xdg.configFile."opentofu/tofurc" = {
     enable = true;
@@ -336,26 +337,26 @@ ${pkgs.sketchybar}/bin/sketchybar --update'';
     }'';
   };
 
-  xdg.configFile.k9s = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix/modules/k9s";
-    recursive = true;
-    force = true;
+  programs.k9s = {
+    enable = true;
+    settings.k9s.ui.skin = "rose-pine-dawn";
+    skins.rose-pine-dawn = ./modules/k9s/skins/rose-pine-dawn.yaml;
+    aliases = {
+      dp = "deployments";
+      sec = "v1/secrets";
+      jo = "jobs";
+      cr = "clusterroles";
+      crb = "clusterrolebindings";
+      ro = "roles";
+      rb = "rolebindings";
+      np = "networkpolicies";
+    };
   };
 
-  xdg.configFile.ghostty = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix/modules/ghostty/config";
-    recursive = true;
-    force = true;
-  };
+  xdg.configFile."ghostty/config".source = ./modules/ghostty/config/config;
 
   xdg.configFile.nvim = {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix/modules/nvim/config";
-    recursive = true;
-    force = true;
-  };
-
-  xdg.configFile."sketchybar/plugins" = {
-    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix/modules/sketchybar/config/plugins";
     recursive = true;
     force = true;
   };
