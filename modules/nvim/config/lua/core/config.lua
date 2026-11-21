@@ -10,6 +10,7 @@ vim.o.expandtab = true
 vim.o.smartindent = true
 vim.o.swapfile = false
 vim.o.termguicolors = true
+vim.o.winborder = "rounded"
 vim.o.scrolloff = 8
 vim.o.laststatus = 2
 vim.o.clipboard = "unnamedplus"
@@ -35,7 +36,7 @@ keymap("v", "K", ":m '>-2<cr>gv=gv", opts)
 keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
-keymap("n", "[d", vim.diagnostic.goto_prev, opts)
-keymap("n", "]d", vim.diagnostic.goto_next, opts)
+keymap("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
+keymap("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
 keymap("n", "<leader>e", vim.diagnostic.open_float, opts)
 keymap("n", "<leader>qf", vim.diagnostic.setloclist, opts)

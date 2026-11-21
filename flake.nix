@@ -21,6 +21,7 @@
                 nerd-fonts.cousine
                 fzf
                 neovim
+                tree-sitter
                 yq
                 ripgrep
                 devenv

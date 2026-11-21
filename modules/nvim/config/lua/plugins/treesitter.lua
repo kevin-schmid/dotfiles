@@ -1,26 +1,31 @@
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
     build = ":TSUpdate",
     config = function()
-      local ok, ts = pcall(require, "nvim-treesitter.configs")
+      local ok, ts = pcall(require, "nvim-treesitter")
       if not ok then return end
 
-      ts.setup({
-        ensure_installed = {
-          "go",
-          "gomod",
-          "lua",
-          "json",
-          "bash",
-          "yaml",
-          "dockerfile",
-          "terraform",
-          "nix",
-        },
-        highlight = { enable = true },
-        indent = { enable = true },
-        incremental_selection = { enable = true },
+      ts.install({
+        "go",
+        "gomod",
+        "lua",
+        "json",
+        "bash",
+        "yaml",
+        "dockerfile",
+        "terraform",
+        "nix",
+      })
+
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("treesitter_start", { clear = true }),
+        callback = function(args)
+          if not pcall(vim.treesitter.start, args.buf) then return end
+          vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
       })
     end,
   }
