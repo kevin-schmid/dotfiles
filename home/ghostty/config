@@ -1,0 +1,21 @@
+shell-integration-features = cursor,sudo,no-title
+
+theme = Rose Pine Dawn
+background-opacity = 0.8
+macos-titlebar-proxy-icon = hidden
+title = " "
+
+font-family = "Cousine Nerd Font"
+font-size = 16
+adjust-cell-height = 20%
+
+window-padding-x = 16
+window-padding-y = 16
+
+mouse-hide-while-typing = true
+
+clipboard-read = allow
+clipboard-write = allow
+clipboard-paste-protection = false
+copy-on-select = clipboard
+macos-option-as-alt = left
