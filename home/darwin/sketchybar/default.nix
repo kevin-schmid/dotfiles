@@ -23,6 +23,11 @@
         label.padding_left=4 \
         label.padding_right=4
 
+      separator() {
+        sketchybar --add item "separator.$1" "$2" \
+          --set "separator.$1" icon.drawing=off label="•" label.color=0x66ffffff
+      }
+
       sketchybar --add event aerospace_workspace_change
       for sid in $(aerospace list-workspaces --all); do
         sketchybar --add item space.$sid left \
@@ -33,16 +38,10 @@
           script="$PLUGIN_DIR/aerospace.sh $sid"
       done
 
-      sketchybar --add item chevron left \
-        --set chevron label.drawing=off \
-        --add item front_app left \
+      separator 0 left
+      sketchybar --add item front_app left \
         --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
         --subscribe front_app front_app_switched aerospace_workspace_change
-
-      separator() {
-        sketchybar --add item "separator.$1" right \
-          --set "separator.$1" icon.drawing=off label="•" label.color=0x66ffffff
-      }
 
       sketchybar --add item clock right \
         --set clock update_freq=1 icon= icon.font="Cousine Nerd Font:Bold:14.0" \
@@ -50,21 +49,21 @@
           popup.align=right popup.background.color=0xF0000000 popup.background.corner_radius=10 \
           popup.background.border_width=1 popup.background.border_color=0xFFE1786E \
         --subscribe clock mouse.exited.global front_app_switched
-      separator 1
+      separator 1 right
       sketchybar --add item volume right \
         --set volume label.width=36 label.align=right icon.width=22 icon.align=left script="$PLUGIN_DIR/volume.sh" \
         --subscribe volume volume_change
-      separator 2
+      separator 2 right
       sketchybar --add item battery right \
         --set battery label.width=36 label.align=right icon.width=27 icon.align=left update_freq=120 script="$PLUGIN_DIR/battery.sh" \
         --subscribe battery system_woke power_source_change
-      separator 3
+      separator 3 right
       sketchybar --add item ram right \
         --set ram label.width=36 label.align=right update_freq=5 icon=󰍛 script="$PLUGIN_DIR/ram.sh"
-      separator 4
+      separator 4 right
       sketchybar --add item cpu right \
         --set cpu label.width=36 label.align=right update_freq=2 icon= script="$PLUGIN_DIR/cpu.sh"
-      separator 5
+      separator 5 right
       sketchybar --add item flake_age right \
         --set flake_age label.width=36 label.align=right update_freq=3600 icon= script="$PLUGIN_DIR/flake_age.sh"
 
