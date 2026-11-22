@@ -39,31 +39,34 @@
         --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
         --subscribe front_app front_app_switched aerospace_workspace_change
 
-      sketchybar --add event spotify_change com.spotify.client.PlaybackStateChanged
-      sketchybar --add item spotify e \
-        --set spotify drawing=off icon= padding_left=15 \
-          label.max_chars=40 label.scroll_duration=250 scroll_texts=on \
-          script="$PLUGIN_DIR/spotify.sh" \
-        --subscribe spotify spotify_change mouse.clicked
+      separator() {
+        sketchybar --add item "separator.$1" right \
+          --set "separator.$1" icon.drawing=off label="•" label.color=0x66ffffff
+      }
 
       sketchybar --add item clock right \
-        --set clock update_freq=10 icon= icon.font="Cousine Nerd Font:Bold:14.0" \
+        --set clock update_freq=1 icon= icon.font="Cousine Nerd Font:Bold:14.0" \
           script="$PLUGIN_DIR/clock.sh" click_script="$PLUGIN_DIR/calendar.sh" \
           popup.align=right popup.background.color=0xF0000000 popup.background.corner_radius=10 \
           popup.background.border_width=1 popup.background.border_color=0xFFE1786E \
-        --subscribe clock mouse.exited.global front_app_switched \
-        --add item volume right \
-        --set volume script="$PLUGIN_DIR/volume.sh" \
-        --subscribe volume volume_change \
-        --add item battery right \
-        --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
-        --subscribe battery system_woke power_source_change \
-        --add item ram right \
-        --set ram update_freq=5 icon=󰍛 script="$PLUGIN_DIR/ram.sh" \
-        --add item cpu right \
-        --set cpu update_freq=2 icon= script="$PLUGIN_DIR/cpu.sh" \
-        --add item flake_age right \
-        --set flake_age update_freq=3600 icon= script="$PLUGIN_DIR/flake_age.sh"
+        --subscribe clock mouse.exited.global front_app_switched
+      separator 1
+      sketchybar --add item volume right \
+        --set volume label.width=36 label.align=right icon.width=22 icon.align=left script="$PLUGIN_DIR/volume.sh" \
+        --subscribe volume volume_change
+      separator 2
+      sketchybar --add item battery right \
+        --set battery label.width=36 label.align=right icon.width=27 icon.align=left update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+        --subscribe battery system_woke power_source_change
+      separator 3
+      sketchybar --add item ram right \
+        --set ram label.width=36 label.align=right update_freq=5 icon=󰍛 script="$PLUGIN_DIR/ram.sh"
+      separator 4
+      sketchybar --add item cpu right \
+        --set cpu label.width=36 label.align=right update_freq=2 icon= script="$PLUGIN_DIR/cpu.sh"
+      separator 5
+      sketchybar --add item flake_age right \
+        --set flake_age label.width=36 label.align=right update_freq=3600 icon= script="$PLUGIN_DIR/flake_age.sh"
 
       sketchybar --update
     '';
