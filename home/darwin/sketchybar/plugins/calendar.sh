@@ -1,5 +1,7 @@
 #!/bin/sh
 
+PLUGIN_DIR=$(dirname "$0")
+
 if [ "$(sketchybar --query "$NAME" | jq -r '.popup.drawing')" = "on" ]; then
     sketchybar --set "$NAME" popup.drawing=off
     exit 0
@@ -11,13 +13,12 @@ sketchybar --add item calendar.loading popup."$NAME" \
     --set "$NAME" popup.drawing=on
 
 "$HOME/.local/bin/jinbe" calendar list \
-    | grep 'dismissed=false' \
     | head -n 10 \
-    | awk -F ' [|] ' '{ print $2 "|" $1 }' \
+    | awk -F ' [|] ' '{ print $1 "|" $2 "|" $4 "|" $5 }' \
     | {
         i=0
         previous_day=""
-        while IFS='|' read -r start title; do
+        while IFS='|' read -r id start dismissed title; do
             epoch=$(date -j -u -f '%Y-%m-%dT%H:%M:%SZ' "$start" +%s)
             day=$(date -r "$epoch" '+%a %d %b')
 
@@ -28,8 +29,19 @@ sketchybar --add item calendar.loading popup."$NAME" \
                 previous_day="$day"
             fi
 
+            if [ "$dismissed" = "dismissed=true" ]; then
+                color=0x66ffffff
+            else
+                color=0xffffffff
+            fi
+
             sketchybar --add item "calendar.$i" popup."$NAME" \
-                --set "calendar.$i" icon="$(date -r "$epoch" '+%H:%M')" label="$title" label.max_chars=40
+                --set "calendar.$i" icon="$(date -r "$epoch" '+%H:%M')" label="$title" \
+                    icon.color="$color" label.color="$color" label.max_chars=40 label.width=336 \
+                    background.drawing=on background.color=0x00000000 \
+                    background.corner_radius=6 background.height=24 \
+                    script="$PLUGIN_DIR/calendar_entry.sh $id" \
+                --subscribe "calendar.$i" mouse.entered mouse.exited mouse.clicked
             i=$((i + 1))
         done
 
