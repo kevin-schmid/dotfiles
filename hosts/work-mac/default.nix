@@ -14,7 +14,10 @@
     shell = pkgs.bash;
   };
 
-  environment.systemPackages = [ pkgs.lima ];
+  environment.systemPackages = with pkgs; [
+    lima
+    cursor-cli
+  ];
 
   homebrew = {
     enable = true;

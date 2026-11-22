@@ -12,6 +12,8 @@
     stackit-cli
   ];
 
+  home.shellAliases.agent = "cursor-agent";
+
   programs.bash.bashrcExtra = lib.mkBefore ''
     eval "$(/opt/homebrew/bin/brew shellenv)"
   '';
