@@ -51,8 +51,17 @@
     ];
   };
 
+  hardware.graphics.enable = true;
+  hardware.amdgpu.initrd.enable = true;
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
   environment.systemPackages = with pkgs; [
-    mako
     grim
     wl-clipboard
   ];

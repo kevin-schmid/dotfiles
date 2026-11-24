@@ -1,8 +1,14 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   keys = import ../window-keys.nix;
   hyper = key: "Mod1+Mod4+Control+${key}";
+  wpctl = "${pkgs.wireplumber}/bin/wpctl";
 in
 {
   wayland.windowManager.sway = {
@@ -21,6 +27,9 @@ in
           "Mod4+q" = "kill";
           "Mod4+Shift+c" = "reload";
           "Mod4+Shift+e" = "exec swaynag -t warning -m 'Exit sway?' -B 'Exit' 'swaymsg exit'";
+          "XF86AudioRaiseVolume" = "exec ${wpctl} set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+";
+          "XF86AudioLowerVolume" = "exec ${wpctl} set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+          "XF86AudioMute" = "exec ${wpctl} set-mute @DEFAULT_AUDIO_SINK@ toggle";
         }
         // lib.concatMapAttrs (key: direction: {
           ${hyper key} = "focus ${direction}";
@@ -36,6 +45,9 @@ in
           ${hyper keys.shrink} = "resize shrink width 50px";
           ${hyper keys.grow} = "resize grow width 50px";
           ${hyper keys.toggleSplit} = "layout toggle split";
+          ${hyper "space"} = "focus mode_toggle";
+          ${hyper "Shift+space"} = "floating toggle";
+          ${hyper "f"} = "fullscreen toggle";
         };
 
       gaps = {
@@ -49,7 +61,7 @@ in
       };
       input."*".xkb_layout = "de";
       output."*".bg = "${config.home.homeDirectory}/Downloads/wallpaper.jpg center #282142";
-      bars = [ { command = "waybar"; } ];
+      bars = [ ]; # waybar runs as a systemd user service
     };
   };
 }

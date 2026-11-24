@@ -9,7 +9,21 @@
   home.packages = with pkgs; [
     ghostty
     gcc # nvim-treesitter compiles its parsers
+    pavucontrol
   ];
+
+  services.mako = {
+    enable = true;
+    settings = {
+      font = "Cousine Nerd Font 12";
+      background-color = "#000000F0";
+      text-color = "#FFFFFF";
+      border-color = "#E1786E";
+      border-size = 1;
+      border-radius = 10;
+      default-timeout = 5000;
+    };
+  };
   home.sessionVariables.MOZ_ENABLE_WAYLAND = "1";
 
   programs.fuzzel = {
